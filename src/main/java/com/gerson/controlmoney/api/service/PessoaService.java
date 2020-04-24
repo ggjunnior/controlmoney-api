@@ -34,4 +34,7 @@ public class PessoaService {
 		}
 		return pessoaSalva;
 	}
+	public void excluir(Long codigo) {
+		pessoaRepository.deleteById(codigo);
+	}
 }

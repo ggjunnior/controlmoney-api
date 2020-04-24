@@ -1,4 +1,4 @@
-package com.gerson.controlmoney.api.resource;
+package com.gerson.controlmoney.api.crontoller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +35,7 @@ import com.gerson.controlmoney.api.service.exception.PessoaInexistenteOuInativaE
 
 @RestController
 @RequestMapping("/lancamentos")
-public class LancamentoResource {
+public class LancamentoController {
 	
 	@Autowired
 	private LancamentoRepository lancamentoRepository;

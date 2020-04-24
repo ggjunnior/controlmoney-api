@@ -1,4 +1,4 @@
-package com.gerson.controlmoney.api.resource;
+package com.gerson.controlmoney.api.crontoller;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +23,7 @@ import com.gerson.controlmoney.api.repository.CategoriaRepository;
 
 @RestController
 @RequestMapping("/categorias")
-public class CategoriaResource {
+public class CategoriaController {
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;

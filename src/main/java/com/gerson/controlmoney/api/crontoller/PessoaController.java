@@ -1,4 +1,4 @@
-package com.gerson.controlmoney.api.resource;
+package com.gerson.controlmoney.api.crontoller;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +27,7 @@ import com.gerson.controlmoney.api.service.PessoaService;
 
 @RestController
 @RequestMapping("/pessoas")
-public class PessoaResource {
+public class PessoaController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
@@ -51,19 +51,18 @@ public class PessoaResource {
 	}
 		
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Optional<Pessoa>> buscarPeloCodigo(@PathVariable Long codigo) {
+	public ResponseEntity<Pessoa> buscarPeloCodigo(@PathVariable Long codigo) {
 		Optional<Pessoa> pessoa = pessoaRepository.findById(codigo);
 		if(pessoa.isPresent()) {
-			return ResponseEntity.status(HttpStatus.OK).body(pessoa);
-		} else {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(pessoa.get());
 		}
+			return ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long codigo) {
-		pessoaRepository.deleteById(codigo);
+		pessoaService.excluir(codigo);
 	}
 	
 	@PutMapping("/{codigo}")
