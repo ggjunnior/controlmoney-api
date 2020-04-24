@@ -1,4 +1,4 @@
-package com.gerson.controlmoney.api.crontoller;
+package com.gerson.controlmoney.api.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +74,7 @@ public class LancamentoController {
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long codigo) {
-		lancamentoRepository.deleteById(codigo);
+		lancamentoService.excluir(codigo);
 	}
 	
 	@ExceptionHandler({ PessoaInexistenteOuInativaException.class })

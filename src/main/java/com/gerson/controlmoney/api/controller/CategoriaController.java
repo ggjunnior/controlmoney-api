@@ -1,4 +1,4 @@
-package com.gerson.controlmoney.api.crontoller;
+package com.gerson.controlmoney.api.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gerson.controlmoney.api.event.RecursoCriadoEvent;
 import com.gerson.controlmoney.api.model.Categoria;
 import com.gerson.controlmoney.api.repository.CategoriaRepository;
+import com.gerson.controlmoney.api.service.CategoriaService;
 
 @RestController
 @RequestMapping("/categorias")
@@ -27,6 +28,9 @@ public class CategoriaController {
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private CategoriaService categoriaService;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -38,19 +42,19 @@ public class CategoriaController {
 	
 	@PostMapping
 	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
-		Categoria categoriaSalva = categoriaRepository.save(categoria);
+		Categoria categoriaSalva = categoriaService.salvar(categoria);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
 	}
 		
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Optional<Categoria>> buscarPeloCodigo(@PathVariable Long codigo) {
+	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
 		Optional<Categoria> categoria = categoriaRepository.findById(codigo);
+		
 		if(categoria.isPresent()) {
-			return ResponseEntity.status(HttpStatus.OK).body(categoria);
-		} else {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(categoria.get());
 		}
+		return ResponseEntity.notFound().build();
 	}
 
 }

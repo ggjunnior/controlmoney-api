@@ -1,4 +1,4 @@
-package com.gerson.controlmoney.api.crontoller;
+package com.gerson.controlmoney.api.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,12 +40,12 @@ public class PessoaController {
 	
 	@GetMapping
 	public List<Pessoa> listar(){
-		return pessoaRepository.findAll();
+		return pessoaService.buscar();
 	}
 	
 	@PostMapping
 	public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {
-		Pessoa pessoaSalva = pessoaRepository.save(pessoa);
+		Pessoa pessoaSalva = pessoaService.salvar(pessoa);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
 	}
@@ -56,7 +56,7 @@ public class PessoaController {
 		if(pessoa.isPresent()) {
 			return ResponseEntity.ok(pessoa.get());
 		}
-			return ResponseEntity.notFound().build();
+		return ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping("/{codigo}")

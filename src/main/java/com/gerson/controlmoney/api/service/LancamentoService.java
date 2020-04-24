@@ -26,4 +26,8 @@ public class LancamentoService {
 		
 		return lancamentoRepository.save(lancamento);
 	}
+	
+	public void excluir(Long codigo) {
+		lancamentoRepository.deleteById(codigo);
+	}
 }
