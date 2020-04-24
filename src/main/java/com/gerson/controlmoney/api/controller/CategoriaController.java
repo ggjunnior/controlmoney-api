@@ -1,7 +1,6 @@
 package com.gerson.controlmoney.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -19,15 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gerson.controlmoney.api.event.RecursoCriadoEvent;
 import com.gerson.controlmoney.api.model.Categoria;
-import com.gerson.controlmoney.api.repository.CategoriaRepository;
 import com.gerson.controlmoney.api.service.CategoriaService;
 
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
-	
-	@Autowired
-	private CategoriaRepository categoriaRepository;
 	
 	@Autowired
 	private CategoriaService categoriaService;
@@ -37,7 +32,7 @@ public class CategoriaController {
 	
 	@GetMapping
 	public List<Categoria> listar(){
-		return categoriaRepository.findAll();
+		return categoriaService.buscar();
 	}
 	
 	@PostMapping
@@ -49,12 +44,8 @@ public class CategoriaController {
 		
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
-		Optional<Categoria> categoria = categoriaRepository.findById(codigo);
+		return categoriaService.buscarPeloCodigo(codigo);
 		
-		if(categoria.isPresent()) {
-			return ResponseEntity.ok(categoria.get());
-		}
-		return ResponseEntity.notFound().build();
 	}
 
 }

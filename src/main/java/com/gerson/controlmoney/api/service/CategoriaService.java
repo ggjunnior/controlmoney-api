@@ -1,5 +1,6 @@
 package com.gerson.controlmoney.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,15 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
+	public List<Categoria> buscar(){
+		return categoriaRepository.findAll();
+	}
+	
 	public Categoria salvar(Categoria categoria) {
 		return categoriaRepository.save(categoria);
 	}
 	
-	public ResponseEntity<Categoria> buscar(Long codigo){
+	public ResponseEntity<Categoria> buscarPeloCodigo(Long codigo){
 		Optional<Categoria> categoria = categoriaRepository.findById(codigo);
 		
 		if(categoria.isPresent()) {
