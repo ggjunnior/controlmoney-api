@@ -31,11 +31,13 @@ public class CategoriaController {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
+	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
 	public List<Categoria> listar(){
 		return categoriaService.buscar();
 	}
 	
 	@PostMapping
+	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA')")
 	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
 		Categoria categoriaSalva = categoriaService.salvar(categoria);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
@@ -43,6 +45,7 @@ public class CategoriaController {
 	}
 		
 	@GetMapping("/{codigo}")
+	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
 	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
 		return categoriaService.buscarPeloCodigo(codigo);
 		
