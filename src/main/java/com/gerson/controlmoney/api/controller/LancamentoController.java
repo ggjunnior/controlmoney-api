@@ -30,6 +30,7 @@ import com.gerson.controlmoney.api.exceptionhandler.ControlMoneyExceptionHandler
 import com.gerson.controlmoney.api.model.Lancamento;
 import com.gerson.controlmoney.api.repository.LancamentoRepository;
 import com.gerson.controlmoney.api.repository.filter.LancamentoFilter;
+import com.gerson.controlmoney.api.repository.projection.ResumoLancamento;
 import com.gerson.controlmoney.api.service.LancamentoService;
 import com.gerson.controlmoney.api.service.exception.PessoaInexistenteOuInativaException;
 
@@ -52,6 +53,11 @@ public class LancamentoController {
 	@GetMapping
 	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
+	}
+	
+	@GetMapping(params = "resumo")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 	
 	@PostMapping
